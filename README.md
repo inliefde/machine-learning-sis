@@ -1,56 +1,75 @@
-# Inliefde Wine Predict System (SIS-3)
+# 🍷 Inliefde Wine Predict System
 
-This project demonstrates a complete Machine Learning system for Wine Classification. It includes training, experiment tracking with MLflow, a FastAPI backend, and a Streamlit frontend, all orchestrated via Docker Compose.
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io/)
+[![MLflow](https://img.shields.io/badge/MLflow-0194E2?style=for-the-badge&logo=mlflow)](https://mlflow.org/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-## System Architecture
+A completely self-contained, end-to-end Machine Learning deployment system built for the **SIS-3** assignment. This project classifies Wine cultivars across 13 chemical features utilizing a robust, separation-of-concerns architecture.
 
-```text
-User → Streamlit UI (Frontend)
-        ↓
-     FastAPI (Backend)
-        ↓
-     RandomForest Model
-```
-*(Training phase tracked fully via MLflow)*
+## 🏗 System Architecture
 
-## Project Structure
+The project guarantees production-level standards by strictly separating the UI layer from the Backend model inference layer.
 
-```text
-├── app.py                 # Streamlit UI frontend
-├── main.py                # FastAPI backend serving the model
-├── train.py               # Script to train, track via MLflow, and save the model
-├── requirements.txt       # Python dependencies
-├── Dockerfile             # Container instructions for FastAPI
-├── streamlit.Dockerfile   # Container instructions for Streamlit
-├── docker-compose.yml     # Orchestration for API and UI services
-└── README.md              # Project instructions
+```mermaid
+graph TD
+    A[User Browser] -->|Inputs Features| B[Streamlit UI Container]
+    B -->|HTTP POST JSON| C[FastAPI Container]
+    C -->|Loads Joblib| D((RandomForest Model))
+    D -.->|Trained via| E[MLflow Tracking Registry]
 ```
 
-## Step 1: Train the Model & Track with MLflow
+### Key Technical Aspects
+* **Strict Type Validation:** All incoming Streamlit requests are validated against a 13-field Pydantic `BaseModel` on the FastAPI backend, guaranteeing no crashes on malformed data.
+* **Separation of Concerns:** The model is not accessible directly. It lives exclusively behind the FastAPI gateway.
+* **Reproducibility:** The `docker-compose` setup natively orchestrates both services concurrently on separate, exposed ports.
 
-Before running the APIs, you must properly train the system so that `model.joblib` and the `mlruns` registry are populated natively. Run this locally:
+---
+
+## 🚀 Quick Start / Demo
+
+To run the full stack flawlessly, you will deploy the registry first, and then spin up the microservices.
+
+### Phase 1: Train & Register the Model
+Before launching the microservices, populate your local `mlruns/` registry and compile the initial `model.joblib`. Ensure you run this from your virtual environment's root:
 
 ```bash
 pip install -r requirements.txt
+
 python train.py
 ```
-This script will:
-1. Log metrics/parameters locally.
-2. Dump `model.joblib`.
-3. Register `Wine_RF_Model` to the MLflow Model Registry.
 
-To view your tracking dashboard, launch MLflow locally:
-```bash
-mlflow ui
-```
-Navigate to `http://localhost:5000` to view the registry.
+*To verify your metrics and registered models, you can run `mlflow ui` here and check `http://localhost:5000`.*
 
-## Step 2: Spin Up the Stack via Docker
-
-We use **Docker Compose** to run the frontend and backend simultaneously in isolated containers that communicate with each other.
+### Phase 2: Launch the Microservices
+With the model trained naturally, it is now baked into the Docker ecosystem. Launch both the frontend and backend microservices concurrently:
 
 ```bash
 docker-compose up --build -d
+```
+*(Note for newer Docker systems: you may need to use `docker compose` without the hyphen).*
+
+### Phase 3: Access the System
+Once the containers spin up, your endpoints are exclusively mapped as follows:
+* 🖥 **Frontend App (Streamlit):** [http://localhost:8501](http://localhost:8501)
+* ⚙️ **Backend API (FastAPI):** [http://localhost:8000/](http://localhost:8000/)
+* 📚 **API Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 📁 Repository Structure
+
+```text
+practice6/
+├── app.py                 
+├── main.py              
+├── train.py               
+├── requirements.txt       
+├── Dockerfile             
+├── streamlit.Dockerfile   
+├── docker-compose.yml    
+└── README.md             
+```
 ```
 *(If you are on newer docker versions without docker-compose, use `docker compose up --build -d`)*
 
