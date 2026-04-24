@@ -68,16 +68,5 @@ practice6/
 ├── Dockerfile             
 ├── streamlit.Dockerfile   
 ├── docker-compose.yml    
-└── README.md             
+└── README.md            
 ```
-```
-*(If you are on newer docker versions without docker-compose, use `docker compose up --build -d`)*
-
-## Step 3: Test the Application
-
-Navigate to your Streamlit frontend inside your browser:
-- **UI Website:** [http://localhost:8501](http://localhost:8501)
-
-You can view the raw API directly as well if needed:
-- **API Root:** [http://localhost:8000/](http://localhost:8000/)
-- **Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
