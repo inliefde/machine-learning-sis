@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/danial/Documents/Machine%20Learning/practice6/mlruns/166525928237952551/7d1159c6f61e4780a9835b2cb3215c8d/artifacts
+end_time: 1777054869078
+entry_point_name: ''
+experiment_id: '166525928237952551'
+lifecycle_stage: active
+run_id: 7d1159c6f61e4780a9835b2cb3215c8d
+run_name: agreeable-ray-275
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777054867056
+status: 3
+tags: []
+user_id: danial

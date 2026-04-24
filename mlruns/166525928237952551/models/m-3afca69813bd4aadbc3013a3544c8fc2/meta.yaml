@@ -1,0 +1,10 @@
+artifact_location: file:///Users/danial/Documents/Machine%20Learning/practice6/mlruns/166525928237952551/models/m-3afca69813bd4aadbc3013a3544c8fc2/artifacts
+creation_timestamp: 1777054867090
+experiment_id: '166525928237952551'
+last_updated_timestamp: 1777054869066
+model_id: m-3afca69813bd4aadbc3013a3544c8fc2
+model_type: null
+name: random_forest_model
+source_run_id: 7d1159c6f61e4780a9835b2cb3215c8d
+status: 2
+status_message: null
